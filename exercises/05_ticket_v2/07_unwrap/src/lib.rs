@@ -2,7 +2,14 @@
 //   When the description is invalid, instead, it should use a default description:
 //   "Description not provided".
 fn easy_ticket(title: String, description: String, status: Status) -> Ticket {
-    todo!()
+    let t = Ticket::new(title.clone(), description, status.clone());
+    match t {
+        Ok(t) => t,
+        Err(e) if e.starts_with("Description") => {
+            return Ticket::new(title, "Description not provided".into(), status).unwrap()
+        }
+        Err(e) => panic!("{e}"),
+    }
 }
 
 #[derive(Debug, PartialEq, Clone)]
